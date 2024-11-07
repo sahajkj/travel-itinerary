@@ -35,7 +35,7 @@ function App() {
             .filter((activity) => selectedActivityIds.includes(activity.id))
             .reduce((total, activity) => total + activity.duration, 0);
     };
-    
+
 
     // Calculate total travel duration
     const calculateTotalDuration = () => {
@@ -146,7 +146,7 @@ function App() {
         const selectedActivityIds = selectedActivities[cityId] || [];
         return activities.filter((activity) => selectedActivityIds.includes(activity.id));
     };
-    
+
     // Calculate travel duration between cities
     const getTravelDurationBetweenCities = (city1Id, city2Id) => {
         if (!city1Id || !city2Id) return null;
@@ -164,6 +164,18 @@ function App() {
         setEndDate(date);
     };
 
+    const getAvailableCitiesForDropdown = (currentIndex) => {
+        const previousCityId = currentIndex === 0 ? startCity : route[currentIndex - 1]?.cityId;
+        const nextCityId = currentIndex === route.length ? endCity : route[currentIndex + 1]?.cityId;
+
+        return cities.filter(
+            (city) =>
+                city.id !== parseInt(previousCityId, 10) &&
+                city.id !== parseInt(nextCityId, 10) &&
+                !isCityAlreadySelected(city.id)
+        );
+    };
+
     return (
         <div className="app">
             <h1>{totalDays ? `${totalDays} Day ` : ""}Travel Planner</h1>
@@ -171,57 +183,57 @@ function App() {
             {/* Done Button */}
             {isDoneButtonVisible && (
                 <button className="done-button" onClick={togglePopup}>
-                Done
+                    Done
                 </button>
             )}
-            
+
 
             {/* Popup */}
             {isPopupOpen && (
                 <div className="popup-overlay" onClick={togglePopup}>
-                <div className="popup-content" onClick={(e) => e.stopPropagation()}>
-                    <h2>Travel Summary</h2>
-                    <ul className="summary-list">
-                    <li>
-                        <strong>Start City:</strong> {cities.find(c => c.id === parseInt(startCity))?.name}
-                        <ul>
-                        {getSelectedActivitiesForCity(startCity).map(activity => (
-                            <li key={activity.id}>
-                            {activity.name} ({activity.duration} hours)
+                    <div className="popup-content" onClick={(e) => e.stopPropagation()}>
+                        <h2>Travel Summary</h2>
+                        <ul className="summary-list">
+                            <li>
+                                <strong>Start City:</strong> {cities.find(c => c.id === parseInt(startCity))?.name}
+                                <ul>
+                                    {getSelectedActivitiesForCity(startCity).map(activity => (
+                                        <li key={activity.id}>
+                                            {activity.name} ({activity.duration} hours)
+                                        </li>
+                                    ))}
+                                </ul>
                             </li>
-                        ))}
-                        </ul>
-                    </li>
 
-                    {route.map((r, index) => (
-                        <li key={r.id}>
-                        <strong>Stop {index + 1}:</strong> {cities.find(c => c.id === parseInt(r.cityId))?.name}
-                        <ul>
-                            {getSelectedActivitiesForCity(r.cityId).map(activity => (
-                            <li key={activity.id}>
-                                {activity.name} ({activity.duration} hours)
-                            </li>
+                            {route.map((r, index) => (
+                                <li key={r.id}>
+                                    <strong>Stop {index + 1}:</strong> {cities.find(c => c.id === parseInt(r.cityId))?.name}
+                                    <ul>
+                                        {getSelectedActivitiesForCity(r.cityId).map(activity => (
+                                            <li key={activity.id}>
+                                                {activity.name} ({activity.duration} hours)
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </li>
                             ))}
-                        </ul>
-                        </li>
-                    ))}
 
-                    <li>
-                        <strong>End City:</strong> {cities.find(c => c.id === parseInt(endCity))?.name}
-                        <ul>
-                        {getSelectedActivitiesForCity(endCity).map(activity => (
-                            <li key={activity.id}>
-                            {activity.name} ({activity.duration} hours)
+                            <li>
+                                <strong>End City:</strong> {cities.find(c => c.id === parseInt(endCity))?.name}
+                                <ul>
+                                    {getSelectedActivitiesForCity(endCity).map(activity => (
+                                        <li key={activity.id}>
+                                            {activity.name} ({activity.duration} hours)
+                                        </li>
+                                    ))}
+                                </ul>
                             </li>
-                        ))}
                         </ul>
-                    </li>
-                    </ul>
-                    <p><strong>Estimated Travel Duration:</strong> {calculateTotalDuration()} hours</p>
-                    <button className="close-button" onClick={togglePopup}>Close</button>
+                        <p><strong>Estimated Travel Duration:</strong> {calculateTotalDuration()} hours</p>
+                        <button className="close-button" onClick={togglePopup}>Close</button>
+                    </div>
                 </div>
-                </div>
-            )}    
+            )}
             {/* Travel Dates Section */}
             <div className="travel-dates">
                 <div className="form-group-inline">
@@ -258,13 +270,24 @@ function App() {
                         )}
                         <h3>Start City</h3>
                         <label htmlFor="start-city">Start City: </label>
-                        <select id="start-city" value={startCity} onChange={handleStartCityChange} aria-label="Start City">
+                        <select
+                            id="start-city"
+                            value={startCity}
+                            onChange={handleStartCityChange}
+                            aria-label="Start City"
+                        >
                             <option value="">--Select Start City--</option>
-                            {cities.map((city) => (
-                                <option key={city.id} value={city.id} disabled={isCityAlreadySelected(city.id)}>
-                                    {city.name}
-                                </option>
-                            ))}
+                            {cities
+                                .filter(
+                                    (city) =>
+                                        city.id !== parseInt(endCity, 10) &&
+                                        !isCityAlreadySelected(city.id)
+                                )
+                                .map((city) => (
+                                    <option key={city.id} value={city.id}>
+                                        {city.name}
+                                    </option>
+                                ))}
                         </select>
                         {startCity && (
                             <>
@@ -288,7 +311,7 @@ function App() {
                                 </div>
                             </>
                         )}
-                        
+
                     </div>
 
                     {/* Initial Duration Line Between Start and End City */}
@@ -318,7 +341,7 @@ function App() {
                     {/* Intermediate Cities and Durations */}
                     {route.map((routeItem, index) => {
                         const { cityId } = routeItem;
-                        const previousCityId = index === 0 ? startCity : route[index - 1].cityId;
+                        const previousCityId = index === 0 ? startCity : route[index - 1]?.cityId;
                         const travelDuration = previousCityId && cityId ? getTravelDurationBetweenCities(previousCityId, cityId) : null;
 
                         return (
@@ -332,17 +355,15 @@ function App() {
                                         <div className="add-city-container">
                                             {addCityIndex === index ? (
                                                 <select
-                                                    onChange={handleIntermediateCityChange}
+                                                    onChange={(e) => handleIntermediateCityChange(e)}
                                                     aria-label="Add Intermediate City"
                                                 >
                                                     <option value="">--Add City--</option>
-                                                    {cities
-                                                        .filter((city) => !isCityAlreadySelected(city.id))
-                                                        .map((city) => (
-                                                            <option key={city.id} value={city.id}>
-                                                                {city.name}
-                                                            </option>
-                                                        ))}
+                                                    {getAvailableCitiesForDropdown(index).map((city) => (
+                                                        <option key={city.id} value={city.id}>
+                                                            {city.name}
+                                                        </option>
+                                                    ))}
                                                 </select>
                                             ) : (
                                                 <button className="add-city-button" onClick={() => initiateAddCity(index)}>
@@ -364,8 +385,7 @@ function App() {
                                     <h3>{cities.find((c) => c.id === parseInt(cityId, 10))?.name}</h3>
                                     <ul className="activities-list">
                                         {getActivitiesForCity(cityId).map((activity) => (
-                                            <>
-                                                <li key={activity.id}>
+                                            <li key={activity.id}>
                                                 <label>
                                                     <input
                                                         type="checkbox"
@@ -375,12 +395,6 @@ function App() {
                                                     {activity.name} ({activity.duration} hours)
                                                 </label>
                                             </li>
-                                                
-                                            <div className="total-activity-duration">
-                                                Activity Duration: {getTotalActivityDurationForCity(routeItem.cityId)} hrs
-                                            </div>
-                                            </>
-
                                         ))}
                                     </ul>
                                     <div className="city-actions">
@@ -388,10 +402,14 @@ function App() {
                                         <button onClick={() => handleMoveCityDown(index)} disabled={index === route.length - 1}>Move Down</button>
                                         <button onClick={() => handleRemoveCity(index)}>Remove</button>
                                     </div>
+                                    <div className="total-activity-duration">
+                                        Activity Duration: {getTotalActivityDurationForCity(routeItem.cityId)} hrs
+                                    </div>
                                 </div>
                             </React.Fragment>
                         );
                     })}
+
 
                     {/* Duration Line Between Last Intermediate Stop and End City */}
                     {route.length > 0 && endCity && (
@@ -432,13 +450,24 @@ function App() {
                         )}
                         <h3>End City</h3>
                         <label htmlFor="end-city">End City:</label>
-                        <select id="end-city" value={endCity} onChange={handleEndCityChange} aria-label="End City">
+                        <select
+                            id="end-city"
+                            value={endCity}
+                            onChange={handleEndCityChange}
+                            aria-label="End City"
+                        >
                             <option value="">--Select End City--</option>
-                            {cities.map((city) => (
-                                <option key={city.id} value={city.id} disabled={isCityAlreadySelected(city.id)}>
-                                    {city.name}
-                                </option>
-                            ))}
+                            {cities
+                                .filter(
+                                    (city) =>
+                                        city.id !== parseInt(startCity, 10) &&
+                                        !isCityAlreadySelected(city.id)
+                                )
+                                .map((city) => (
+                                    <option key={city.id} value={city.id}>
+                                        {city.name}
+                                    </option>
+                                ))}
                         </select>
                         {endCity && (
                             <>
@@ -456,7 +485,7 @@ function App() {
                                         </li>
                                     ))}
                                 </ul>
-                            
+
                                 <div className="total-activity-duration">
                                     Activity Duration: {getTotalActivityDurationForCity(endCity)} hrs
                                 </div>
