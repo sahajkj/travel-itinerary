@@ -1,0 +1,149 @@
+[
+    {
+        "id": 1,
+        "cityId": 1,
+        "name": "Sydney Opera House Show",
+        "duration": 3,
+        "availableDates": ["15/11/2024", "20/11/2024", "05/12/2024"]
+    },
+    {
+        "id": 2,
+        "cityId": 1,
+        "name": "Bondi Beach Visit",
+        "duration": 3,
+        "availableDates": []
+    },
+    {
+        "id": 3,
+        "cityId": 1,
+        "name": "Sydney Harbour Bridge Walk",
+        "duration": 2,
+        "availableDates": []
+    },
+    {
+        "id": 4,
+        "cityId": 2,
+        "name": "Melbourne Cricket Ground Tour",
+        "duration": 3,
+        "availableDates": ["01/12/2024", "10/12/2024", "15/12/2024"]
+    },
+    {
+        "id": 5,
+        "cityId": 2,
+        "name": "Explore Federation Square",
+        "duration": 1,
+        "availableDates": []
+    },
+    {
+        "id": 6,
+        "cityId": 2,
+        "name": "Royal Botanic Gardens Visit",
+        "duration": 2,
+        "availableDates": []
+    },
+    {
+        "id": 7,
+        "cityId": 3,
+        "name": "Brisbane River Cruise",
+        "duration": 4,
+        "availableDates": ["25/11/2024", "30/11/2024"]
+    },
+    {
+        "id": 8,
+        "cityId": 3,
+        "name": "South Bank Parklands",
+        "duration": 3,
+        "availableDates": []
+    },
+    {
+        "id": 9,
+        "cityId": 3,
+        "name": "Lone Pine Koala Sanctuary",
+        "duration": 4,
+        "availableDates": []
+    },
+    {
+        "id": 10,
+        "cityId": 4,
+        "name": "Perth Music Festival",
+        "duration": 5,
+        "availableDates": ["10/11/2024", "18/11/2024"]
+    },
+    {
+        "id": 11,
+        "cityId": 4,
+        "name": "Kings Park and Botanic Garden",
+        "duration": 2,
+        "availableDates": []
+    },
+    {
+        "id": 12,
+        "cityId": 4,
+        "name": "Perth Zoo",
+        "duration": 3,
+        "availableDates": []
+    },
+    {
+        "id": 13,
+        "cityId": 5,
+        "name": "Adelaide Fringe Festival",
+        "duration": 4,
+        "availableDates": ["05/12/2024", "15/12/2024"]
+    },
+    {
+        "id": 14,
+        "cityId": 5,
+        "name": "Adelaide Central Market",
+        "duration": 2,
+        "availableDates": []
+    },
+    {
+        "id": 15,
+        "cityId": 5,
+        "name": "Glenelg Beach",
+        "duration": 3,
+        "availableDates": []
+    },
+    {
+        "id": 16,
+        "cityId": 6,
+        "name": "Canberra Balloon Spectacular",
+        "duration": 3,
+        "availableDates": ["12/11/2024", "20/11/2024"]
+    },
+    {
+        "id": 17,
+        "cityId": 6,
+        "name": "Parliament House Tour",
+        "duration": 2,
+        "availableDates": []
+    },
+    {
+        "id": 18,
+        "cityId": 6,
+        "name": "Australian War Memorial Visit",
+        "duration": 2,
+        "availableDates": []
+    },
+    {
+        "id": 19,
+        "cityId": 7,
+        "name": "Darwin Festival",
+        "duration": 3,
+        "availableDates": ["18/11/2024", "25/11/2024"]
+    },
+    {
+        "id": 20,
+        "cityId": 7,
+        "name": "Mindil Beach Sunset Market",
+        "duration": 2,
+        "availableDates": []
+    },
+    {
+        "id": 21,
+        "cityId": 7,
+        "name": "Litchfield National Park Tour",
+        "duration": 5,
+        "availableDates": []
+    }
+]
